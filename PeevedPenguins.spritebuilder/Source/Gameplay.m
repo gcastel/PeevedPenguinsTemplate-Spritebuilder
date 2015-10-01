@@ -22,7 +22,7 @@
         self.userInteractionEnabled = TRUE;
         
         // visualize physics bodies & joints
-        _physicsNode.debugDraw = TRUE;
+        //_physicsNode.debugDraw = TRUE;
         
         CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
         [_levelNode addChild:level];
