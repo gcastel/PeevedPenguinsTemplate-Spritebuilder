@@ -48,7 +48,35 @@
             _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultArm.physicsBody anchorA:ccp(0, 0) anchorB:ccp(34, 138) restLength:0.f stiffness:3000.f damping:150.f];
         }
     }
-    
+
+    - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+    {
+        // whenever touches move, update the position of the mouseJointNode to the touch position
+        CGPoint touchLocation = [touch locationInNode:_contentNode];
+        _mouseJointNode.position = touchLocation;
+    }
+
+    - (void)releaseCatapult {
+        if (_mouseJoint != nil)
+        {
+            // releases the joint and lets the catapult snap back
+            [_mouseJoint invalidate];
+            _mouseJoint = nil;
+        }
+    }
+
+    -(void) touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+    {
+        // when touches end, meaning the user releases their finger, release the catapult
+        [self releaseCatapult];
+    }
+
+    -(void) touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+    {
+        // when touches are cancelled, meaning the user drags their finger off the screen or onto something     else, release the catapult
+        [self releaseCatapult];
+    }
+
     - (void)launchPenguin {
         // loads the Penguin.ccb we have set up in Spritebuilder
         CCNode* penguin = [CCBReader load:@"Penguin"];
